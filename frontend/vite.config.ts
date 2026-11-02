@@ -31,9 +31,17 @@ react(),
       },
     },
     server: {
-      host: process.env.FIGMA_DEV_SERVER_HOST || '0.0.0.0',
+      host: process.env.FIGMA_DEV_SERVER_HOST || '127.0.0.1',
       port: parseInt(process.env.PORT || '8443'),
       strictPort: true,
+      
+proxy: {
+  '/api': {
+    target: 'http://127.0.0.1:8000',
+    changeOrigin: true,
+  },
+},
+
       watch: {
         ignored: [
           '**/.figma/**',
@@ -41,7 +49,7 @@ react(),
       },
     },
     preview: {
-      host: process.env.FIGMA_DEV_SERVER_HOST || '0.0.0.0',
+      host: process.env.FIGMA_DEV_SERVER_HOST || '127.0.0.1',
       port: parseInt(process.env.PORT || '8443'),
     },
   }
@@ -86,7 +94,7 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
     return html.replace(`<!-- ${slotName} -->`, content)
   }
 
-  const title = config.title ?? "Figma Make App"
+  const title = config.title ?? "Policy AI"
   const description = config.description ?? ''
   // Imported HTML keeps its own favicon; new Makes default to the Make product icon.
   const favicon = config.icons?.icon ?? '/favicon.svg'
